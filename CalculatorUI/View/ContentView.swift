@@ -9,12 +9,12 @@ import SwiftUI
 import AVFoundation
 
 struct ContentView: View {
-    @State var soundOn: Bool = false
+    @State var vm = CalculatorBrain()
     
     var body: some View {
         VStack(spacing: 10) {
             HStack {
-                Toggle(isOn: $soundOn) {
+                Toggle(isOn: $vm.soundOn) {
                     Text("App sounds")
                 }
             }
@@ -25,28 +25,28 @@ struct ContentView: View {
                     .font(.system(size: 50, weight: .semibold))
             }.padding(.bottom, 20)
             HStack(spacing: 10) {
-                OperationButton(symbol: "C")
-                OperationButton(symbol: "+")
-                OperationButton(symbol: "-")
-                OperationButton(symbol: "/")
+                OperationButton(vm: vm, symbol: "C")
+                OperationButton(vm: vm, symbol: "+")
+                OperationButton(vm: vm, symbol: "-")
+                OperationButton(vm: vm, symbol: "/")
             }
             HStack {
-                NumberButton(symbol: "7")
-                NumberButton(symbol: "8")
-                NumberButton(symbol: "9")
-                OperationButton(symbol: "*")
+                NumberButton(vm: vm, symbol: "7")
+                NumberButton(vm: vm, symbol: "8")
+                NumberButton(vm: vm, symbol: "9")
+                OperationButton(vm: vm, symbol: "*")
             }
             HStack {
-                NumberButton(symbol: "4")
-                NumberButton(symbol: "5")
-                NumberButton(symbol: "6")
-                OperationButton(symbol: "=")
+                NumberButton(vm: vm, symbol: "4")
+                NumberButton(vm: vm, symbol: "5")
+                NumberButton(vm: vm, symbol: "6")
+                OperationButton(vm: vm, symbol: "=")
             }
             HStack {
-                NumberButton(symbol: "1")
-                NumberButton(symbol: "2")
-                NumberButton(symbol: "3")
-                OperationButton(symbol: "0")
+                NumberButton(vm: vm, symbol: "1")
+                NumberButton(vm: vm, symbol: "2")
+                NumberButton(vm: vm, symbol: "3")
+                OperationButton(vm: vm, symbol: "0")
             }
         }.padding(40)
     }
@@ -58,6 +58,8 @@ struct ContentView: View {
 
 struct NumberButton: View {
     @State var player: SoundPlayer = SoundPlayer(player: AVAudioPlayer())
+    @ObservedObject var vm: CalculatorBrain
+    
     var symbol: String
     
     var body: some View {
@@ -77,12 +79,19 @@ struct NumberButton: View {
     }
     
     func buttonTapped() {
-        player.playSound(named: "button.mp3")
+        if (vm.soundOn) {
+            player.playSound(named: "button.mp3")
+            print("Playing sound.")
+        } else {
+            print("No sound.")
+        }
     }
 }
 
 struct OperationButton: View {
     @State var player = SoundPlayer(player: AVAudioPlayer())
+    @ObservedObject var vm: CalculatorBrain
+
     var symbol: String
     
     var body: some View {
@@ -102,6 +111,11 @@ struct OperationButton: View {
     }
     
     func buttonTapped() {
-        player.playSound(named: "button.mp3")
+        if (vm.soundOn) {
+            player.playSound(named: "button.mp3")
+            print("Playing sound.")
+        } else {
+            print("No sound.")
+        }
     }
 }
