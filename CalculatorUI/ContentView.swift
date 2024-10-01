@@ -6,10 +6,18 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct ContentView: View {
+    @State var soundOn: Bool = false
+    
     var body: some View {
         VStack(spacing: 10) {
+            HStack {
+                Toggle(isOn: $soundOn) {
+                    Text("App sounds")
+                }
+            }
             Spacer()
             HStack {
                 Spacer()
@@ -49,11 +57,13 @@ struct ContentView: View {
 }
 
 struct NumberButton: View {
+    @State var player: SoundPlayer = SoundPlayer(player: AVAudioPlayer())
     var symbol: String
+    
     var body: some View {
         HStack(spacing: 10) {
             Button {
-                
+                buttonTapped()
             } label: {
                 Text(symbol)
                     .font(.title2)
@@ -65,14 +75,20 @@ struct NumberButton: View {
             .cornerRadius(50)
         }
     }
+    
+    func buttonTapped() {
+        player.playSound(named: "button.mp3")
+    }
 }
 
 struct OperationButton: View {
+    @State var player = SoundPlayer(player: AVAudioPlayer())
     var symbol: String
+    
     var body: some View {
         HStack(spacing: 10) {
             Button {
-                
+                buttonTapped()
             } label: {
                 Text(symbol)
                     .font(.title2)
@@ -83,5 +99,9 @@ struct OperationButton: View {
             .background(Color.cyan)
             .cornerRadius(50)
         }
+    }
+    
+    func buttonTapped() {
+        player.playSound(named: "button.mp3")
     }
 }
