@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 class CalculatorBrain: ObservableObject {
     //MARK: - Variables
     
@@ -23,5 +21,4 @@ class CalculatorBrain: ObservableObject {
     func functionTapped(_ function: String) {
         //TODO
     }
-
 }
