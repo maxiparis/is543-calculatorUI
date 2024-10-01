@@ -9,13 +9,17 @@ import Foundation
 
 class CalculatorBrain: ObservableObject {
     //MARK: - Variables
+    @Published var digits = ""
     
     @Published var soundOn: Bool = false
     private var model = CalculatorData()
     
     //MARK: - User intents
-    func numberTapped(_ number: String) {
+    func tapped(number: String) {
         //TODO
+        model.addDigit(number)
+        digits = model.digits
+        print("vm.tapped called ✅")
     }
     
     func functionTapped(_ function: String) {

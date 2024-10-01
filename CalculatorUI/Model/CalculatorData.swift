@@ -8,5 +8,9 @@
 import Foundation
 
 struct CalculatorData {
+    var digits = ""
     
+    mutating func addDigit(_ number: String) {
+        digits.append(number)
+    }
 }

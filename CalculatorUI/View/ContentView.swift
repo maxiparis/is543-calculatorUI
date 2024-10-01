@@ -9,7 +9,7 @@ import SwiftUI
 import AVFoundation
 
 struct ContentView: View {
-    @State var vm = CalculatorBrain()
+    @StateObject var vm = CalculatorBrain()
     
     var body: some View {
         VStack(spacing: 10) {
@@ -21,8 +21,11 @@ struct ContentView: View {
             Spacer()
             HStack {
                 Spacer()
-                Text("12345") //Just a placeholder
+                Text(vm.digits) //Just a placeholder
                     .font(.system(size: 50, weight: .semibold))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                
             }.padding(.bottom, 20)
             HStack(spacing: 10) {
                 OperationButton(vm: vm, symbol: "C")
@@ -59,7 +62,6 @@ struct ContentView: View {
 struct NumberButton: View {
     @State var player: SoundPlayer = SoundPlayer(player: AVAudioPlayer())
     @ObservedObject var vm: CalculatorBrain
-    
     var symbol: String
     
     var body: some View {
@@ -85,14 +87,14 @@ struct NumberButton: View {
         } else {
             print("No sound.")
         }
+        vm.tapped(number: symbol)
     }
 }
 
 struct OperationButton: View {
     @State var player = SoundPlayer(player: AVAudioPlayer())
     @ObservedObject var vm: CalculatorBrain
-
-    var symbol: String
+    public var symbol: String
     
     var body: some View {
         HStack(spacing: 10) {
@@ -119,3 +121,16 @@ struct OperationButton: View {
         }
     }
 }
+
+//enum NumberSymbol: String {
+//    case one = "1"
+//    case two = "2"
+//    case three = "3"
+//    case four = "4"
+//    case five = "5"
+//    case six = "6"
+//    case seven = "7"
+//    case eight = "8"
+//    case two = "9"
+//    case zero = "0"
+//}
